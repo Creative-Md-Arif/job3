@@ -1,0 +1,53 @@
+package com.example.job3.view
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.job3.databinding.ActivityRegisterBinding
+import com.example.job3.R
+import com.example.job3.viewmodel.AuthenticationViewModel
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+
+class RegisterActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityRegisterBinding
+    private lateinit var authenticationViewModel: AuthenticationViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+        authenticationViewModel = ViewModelProvider(this).get(AuthenticationViewModel::class.java)
+
+        binding.registerBtn.setOnClickListener {
+
+            val name = binding.displayNameEt.text.toString()
+            val email = binding.emailEt.text.toString()
+            val password = binding.passwordEt.text.toString()
+            val confirmPassword = binding.conPasswordEt.text.toString()
+
+            authenticationViewModel.register(email ,password , onSuccess = {
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+
+            }, onFailure = {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            })
+
+        }
+
+        binding.loginTxt.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+
+    }
+    override fun onStart() {
+        super.onStart()
+        if (Firebase.auth.currentUser != null) {
+            startActivity(Intent(this@RegisterActivity, MainActivity::class.java))
+            finish()
+        }
+    }
+}
