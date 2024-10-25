@@ -8,18 +8,21 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.job3.databinding.ActivityRegisterBinding
 import com.example.job3.R
 import com.example.job3.viewmodel.AuthenticationViewModel
+import com.example.job3.viewmodel.FirestoreViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private lateinit var authenticationViewModel: AuthenticationViewModel
+    private lateinit var firestoreViewModel: FirestoreViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         authenticationViewModel = ViewModelProvider(this).get(AuthenticationViewModel::class.java)
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
 
         binding.registerBtn.setOnClickListener {
 
@@ -27,6 +30,7 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.emailEt.text.toString()
             val password = binding.passwordEt.text.toString()
             val confirmPassword = binding.conPasswordEt.text.toString()
+            val location = "Don't found any location yet"
 
             if (name.isEmpty() || email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
@@ -40,6 +44,7 @@ class RegisterActivity : AppCompatActivity() {
             } else {
 
             authenticationViewModel.register(email ,password , onSuccess = {
+                firestoreViewModel.saveUser(this, authenticationViewModel.getCurrentUserId(), name, email, location)
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
 

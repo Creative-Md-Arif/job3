@@ -3,6 +3,7 @@ package com.example.job3.viewmodel
 import android.content.Context
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import com.example.job3.model.User
 import com.google.firebase.firestore.FirebaseFirestore
 
 class FirestoreViewModel: ViewModel() {
@@ -28,5 +29,99 @@ class FirestoreViewModel: ViewModel() {
                 Toast.makeText(context,e.message.toString(), Toast.LENGTH_SHORT).show()
             }
     }
+
+    fun getAllUsers(context: Context, callback: (List<User>) -> Unit) {
+        usersCollection.get()
+            .addOnSuccessListener {
+                val userList = mutableListOf<User>()
+                for (document in it) {
+                    val userId = document.id
+                    val displayName = document.getString("displayName") ?: ""
+                    val email = document.getString("email") ?: ""
+                    val location = document.getString("location") ?: ""
+                    userList.add(User(userId, displayName, email, location))
+                }
+                callback(userList)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context,e.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun updateUser(context: Context, userId: String, displayName: String, location: String) {
+        val user = hashMapOf(
+            "displayName" to displayName,
+            "location" to location
+        )
+        // Convert HashMap to Map
+        val userMap = user.toMap()
+        usersCollection.document(userId).update(userMap)
+            .addOnSuccessListener {
+                Toast.makeText(
+                    context,
+                    "User update successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context,e.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+    fun updateUserLocation(context: Context, userId: String, location: String) {
+        if (userId.isEmpty()) {
+            // Handle the case where userId is empty or null
+            return
+        }
+        val user = hashMapOf(
+            "location" to location
+        )
+        val userMap = user.toMap()
+        usersCollection.document(userId).update(userMap)
+            .addOnSuccessListener {
+                Toast.makeText(
+                    context,
+                    "User update successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context,e.message.toString(), Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    fun getUser(context: Context, userId: String, callback: (User?) -> Unit) {
+        usersCollection.document(userId).get()
+            .addOnSuccessListener {
+                val user = it.toObject(User::class.java)
+                callback(user)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context,e.message.toString(), Toast.LENGTH_SHORT).show()
+                callback(null)
+            }
+    }
+
+
+    fun getUserLocation(context: Context, userId: String, callback: (String) -> Unit) {
+        usersCollection.document(userId).get()
+            .addOnSuccessListener {
+                val location = it.getString("location") ?: ""
+                //val latLngSplit = location.split(", ")
+                //val latitude = latLngSplit[0].substringAfter("Lat: ").toDouble()
+                //val longitude = latLngSplit[1].substringAfter("Long: ").toDouble()
+                //val locationName = getLocationName(context,latitude, longitude)
+                callback(location)
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context,e.message.toString(), Toast.LENGTH_SHORT).show()
+                callback("")
+            }
+    }
+
+
+
+
 
 }
