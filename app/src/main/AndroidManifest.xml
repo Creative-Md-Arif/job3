@@ -16,14 +16,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Job3"
         tools:targetApi="31">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBp9T56vcRSRsk3u9-BqGHzuD0ul5QJhDs" />
+
+        <activity
+            android:name=".view.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
         <activity
             android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".view.RegisterActivity"

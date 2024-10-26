@@ -1,5 +1,6 @@
 package com.example.job3
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationServices
 import com.example.job3.adapter.UserAdapter
 import com.example.job3.databinding.FragmentFriendsBinding
+import com.example.job3.view.MapsActivity
 import com.example.job3.viewmodel.AuthenticationViewModel
 import com.example.job3.viewmodel.FirestoreViewModel
 import com.example.job3.viewmodel.LocationViewModel
@@ -73,7 +75,7 @@ class FriendsFragment : Fragment() {
         fetchUsers()
 
         binding.locationBtn.setOnClickListener {
-//            startActivity(Intent(requireContext(),MapsActivity::class.java))
+            startActivity(Intent(requireContext(),MapsActivity::class.java))
         }
 
 
