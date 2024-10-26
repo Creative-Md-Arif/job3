@@ -1,7 +1,8 @@
-package com.example.job3.view
+package com.example.job3
 
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -9,7 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.job3.databinding.ActivityMainBinding
-import com.example.job3.R
+
+import com.example.job3.view.LoginActivity
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.logout -> {
                     Firebase.auth.signOut()
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                     finish()
                     true
                 }
@@ -60,6 +63,7 @@ class MainActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.logout -> {
                     Firebase.auth.signOut()
+                    startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                     finish()
                     true
                 }

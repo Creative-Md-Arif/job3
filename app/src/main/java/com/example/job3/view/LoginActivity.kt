@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.job3.MainActivity
 import com.example.job3.databinding.ActivityLoginBinding
-import com.example.job3.R
 import com.example.job3.viewmodel.AuthenticationViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth

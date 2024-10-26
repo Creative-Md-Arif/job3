@@ -9,6 +9,8 @@ android {
         viewBinding = true
     }
 
+
+
     namespace = "com.example.job3"
     compileSdk = 34
 
@@ -50,14 +52,19 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
+    implementation(libs.play.services.location)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+//    implementation ("com.google.android.gms:play-services-location:18.0.0")
     val nav_version = "2.8.2"
 
     // Views/Fragments integration
-    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+//    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+//    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    implementation ("androidx.navigation:navigation-fragment-ktx:2.5.3") // Use the latest version
+    implementation ("androidx.navigation:navigation-ui-ktx:2.5.3")
 
     implementation ("de.hdodenhof:circleimageview:3.1.0")
 }
