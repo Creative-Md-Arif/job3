@@ -2,6 +2,7 @@ package com.example.job3.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.example.job3.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -16,13 +17,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
-    private var firestoreViewModel: FirestoreViewModel? = null
+    private lateinit var firestoreViewModel: FirestoreViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        firestoreViewModel = ViewModelProvider(this).get(FirestoreViewModel::class.java)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -34,7 +37,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        firestoreViewModel?.getAllUsers(this) { users ->
+        firestoreViewModel.getAllUsers(this) { users ->
             for (user in users) {
                 val userLocation = user.location
                 val latLng = if (userLocation.isEmpty() || userLocation == "Don't found any location yet" || userLocation == "Location not available") {
